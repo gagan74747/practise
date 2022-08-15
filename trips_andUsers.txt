@@ -1,0 +1,22 @@
+see leet code fro trips and users 
+
+
+solution in psql:-
+
+
+
+
+
+
+ select   coalesce(c,0.0) as result from (select CAST(abc AS DECIMAL(7,2)) / CAST(count as decimal(7,2)) AS c from(select d.count as abc,d.request_at,w.count from 
+(select b.request_at,count(*) as count from
+ (select g.*,h.banned as isdriverBanned from
+  (select t.*,u.banned as isUserBanned ,u.role from trips t join users u on t.client_id = u.users_id ) as g
+  JOIN users h on g.driver_id = h.users_id) as b where b.status != 'completed' AND b.isuserbanned != 'Yes' AND b.isdriverbanned != 'Yes'    group by    request_at)
+  as d
+  full OUTER JOIN 
+  (select b.request_at,count(*) as count from(select g.*,h.banned as isdriverBanned from
+																   (select t.*,u.banned as isUserBanned ,u.role from trips t join users u on t.client_id = u.users_id ) as g JOIN users h on g.driver_id = h.users_id) as b where b.isuserbanned != 'Yes' AND b.isdriverbanned != 'Yes'    group by    request_at)  
+  
+ as w
+																   on d.request_at=w.request_at) as foo)as meow ;
